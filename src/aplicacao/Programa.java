@@ -55,6 +55,36 @@ public class Programa {
 			System.out.println("Error: " + error.getMessage());
 		}
 
+		try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+
+			Set<EntradaLog> setLog = new HashSet<EntradaLog>();
+			String linha = br.readLine();
+
+			while (linha != null) {
+				// vetor do tipo String
+				String[] campos = linha.split(" ");
+				String nomeDeUsuario = campos[0];
+				Date data = Date.from(Instant.parse(campos[1]));
+				// set não vai aceitar adicionar log do mesmo usuário
+				setLog.add(new EntradaLog(nomeDeUsuario, data));
+				linha = br.readLine();
+			}
+
+			System.out.println("\nSet não aceita elementos repetidos. Ideal para arquivar apenas 1 log por usuário");
+			System.out.println("Imprimindo o set (apenas 1 log por usuário)");
+			int i=1;
+			for (EntradaLog apelido : setLog) {
+				System.out.println(i + "." + apelido);
+				i++;
+			}
+
+			System.out.println("O número de usuário diferentes do arquivo é " + setLog.size() + ".");
+		}
+
+		catch (IOException erro) {
+			System.out.println("Erro: " + erro.getMessage());
+		}
+
 		// sc.close();
 
 	}
